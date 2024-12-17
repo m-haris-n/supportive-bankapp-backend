@@ -1,5 +1,5 @@
 import prisma from "@/app/lib/prisma";
-import apiResponse from "@/app/helpers/functions";
+import { apiResponse } from "@/app/helpers/functions";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 

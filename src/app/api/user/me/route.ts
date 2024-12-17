@@ -12,7 +12,6 @@ export const GET = authMiddleware(async (req: any) => {
       first_name: true,
       last_name: true,
       email: true,
-      username: true,
     },
   });
 
