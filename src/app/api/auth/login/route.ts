@@ -42,6 +42,7 @@ export async function POST(req: Request) {
       const token = generateToken({ userId: existingUser.id });
 
       return apiResponse(true, {
+        id: existingUser.id,
         token: token,
         type: "Bearer",
         expires_in: "24h",
