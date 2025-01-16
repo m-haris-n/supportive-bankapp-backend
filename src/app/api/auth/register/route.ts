@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       });
 
       if (existingUser) {
-        return apiResponse(false, ["Email already is use"], 409);
+        return apiResponse(false, ["Email already is use"], 400);
       }
 
       if (parsedData.password) {
