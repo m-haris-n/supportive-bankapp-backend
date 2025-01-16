@@ -3,7 +3,10 @@ export function apiResponse(
   data: any = null,
   status: number = 200
 ) {
-  return Response.json({ success: success, data: data }, { status });
+  return Response.json(
+    { success: success, data: data, status: status },
+    { status }
+  );
 }
 
 export function getUserId(req: any) {
