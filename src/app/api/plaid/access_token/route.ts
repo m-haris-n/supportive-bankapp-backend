@@ -1,5 +1,6 @@
 import { apiResponse } from "@/app/helpers/functions";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import prisma from "@/app/lib/prisma";
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox,
@@ -16,17 +17,40 @@ const plaidClient = new PlaidApi(configuration);
 export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
-      const { public_token } = await req.json();
+      let body = await req.json();
+      const public_token = body.public_token;
 
-      if (!public_token) {
-        return apiResponse(false, "Missing paramter", 400);
+      const existingUser = await prisma.users.findFirst({
+        where: {
+          id: body.user_id,
+        },
+      });
+
+      if (!existingUser) {
+        return apiResponse(
+          false,
+          { email: "No user registered with this email" },
+          404
+        );
       }
 
-      const response = await plaidClient.itemPublicTokenExchange({
+      const plaidResponse = await plaidClient.itemPublicTokenExchange({
         public_token,
       });
 
-      return apiResponse(true, response.data);
+      const updatedUser = await prisma.users.update({
+        where: { id: body.user_id },
+        data: {
+          access_token: plaidResponse.data.access_token,
+          institute_id: body.institute_id,
+        },
+      });
+
+      if (updatedUser) {
+        return apiResponse();
+      } else {
+        return apiResponse(false, { error: "User not updated" });
+      }
     } catch (error) {
       if (error instanceof Error) {
         return apiResponse(false, error, 500);
