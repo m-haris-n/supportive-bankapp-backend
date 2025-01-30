@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       if (!existingUser) {
         return apiResponse(
           false,
-          { email: "No user registered with this email" },
+          { user: "No user registered." },
           404
         );
       }
