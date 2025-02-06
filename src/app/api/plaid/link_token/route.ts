@@ -29,7 +29,7 @@ export const GET = async (request: any) => {
     const response = await plaidClient.linkTokenCreate({
       user: { client_user_id: id },
       client_name: "Supportive App",
-      products: ["auth" as Products], // Use 'auth' for user authentication
+      products: ["auth" as Products, "transactions" as Products], // Use 'auth' for user authentication
       country_codes: ["US" as CountryCode],
       language: "en",
     });
