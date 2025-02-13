@@ -12,3 +12,7 @@ export function apiResponse(
 export function getUserId(req: any) {
   return (req as any).user.userId;
 }
+
+export const generateOTP = (length: number = 6): string => {
+  return Array.from({ length }, () => Math.floor(Math.random() * 10)).join("");
+};

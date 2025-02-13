@@ -44,7 +44,7 @@ export async function POST(req: Request) {
           400
         );
       }
-      return apiResponse(false, "Internal Server Error", 500);
+      return apiResponse(false, error, 500);
     }
   } else {
     return apiResponse(false, "Method Not Allowed", 405);
