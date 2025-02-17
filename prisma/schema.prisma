@@ -14,21 +14,20 @@ datasource db {
 }
 
 model users {
-  id            String    @id @default(uuid()) @db.Uuid
-  // image_id     String?      @db.Uuid
-  first_name    String    @db.VarChar(255)
-  last_name     String?   @db.VarChar(255)
-  email         String    @unique @db.VarChar(255)
-  password      String    @db.Text
-  institute_id  String?   @db.VarChar(255)
-  access_token  String?   @db.Text
-  deletedAt     DateTime? @db.Timestamp()
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  otp           String?   @db.VarChar(10)
-  otp_expire_at DateTime? @db.Date
+  id            String      @id @default(uuid()) @db.Uuid
+  first_name    String      @db.VarChar(255)
+  last_name     String?     @db.VarChar(255)
+  email         String      @unique @db.VarChar(255)
+  password      String      @db.Text
+  institute_id  String?     @db.VarChar(255)
+  access_token  String?     @db.Text
+  deletedAt     DateTime?   @db.Timestamp()
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  otp           String?     @db.VarChar(10)
+  otp_expire_at DateTime?   @db.Date
   chats         chats[]
-  // media_file   media_files? @relation(fields: [image_id], references: [id])
+  pinned_chats  pin_chats[]
 }
 
 model chats {
@@ -39,6 +38,7 @@ model chats {
   updatedAt DateTime        @updatedAt
   user      users           @relation(fields: [user_id], references: [id])
   messages  chat_messages[]
+  pin_chats pin_chats[]
 }
 
 model chat_messages {
@@ -52,11 +52,13 @@ model chat_messages {
   chats     chats?    @relation(fields: [chat_id], references: [id])
 }
 
-// model media_files {
-//   id        String    @id @default(uuid()) @db.Uuid
-//   file      String    @db.VarChar(255)
-//   deletedAt DateTime? @db.Timestamp()
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   users     users[]
-// }
+model pin_chats {
+  id        String    @id @default(uuid()) @db.Uuid
+  chat_id   String    @db.Uuid
+  user_id   String    @db.Uuid
+  deletedAt DateTime? @db.Timestamp()
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  chats     chats?    @relation(fields: [chat_id], references: [id])
+  user      users     @relation(fields: [user_id], references: [id])
+}
