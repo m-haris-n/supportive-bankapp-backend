@@ -27,11 +27,7 @@ export async function POST(req: Request) {
       });
 
       if (!existingUser) {
-        return apiResponse(
-          false,
-          { user: "No user registered." },
-          404
-        );
+        return apiResponse(false, { user: "No user registered." }, 404);
       }
 
       const plaidResponse = await plaidClient.itemPublicTokenExchange({
@@ -43,11 +39,12 @@ export async function POST(req: Request) {
         data: {
           access_token: plaidResponse.data.access_token,
           institute_id: body.institute_id,
+          is_plaid_connect: true,
         },
       });
 
       if (updatedUser) {
-        return apiResponse();
+        return apiResponse(true, { is_plaid_connect: true });
       } else {
         return apiResponse(false, { error: "User not updated" });
       }

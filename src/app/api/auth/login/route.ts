@@ -43,6 +43,7 @@ export async function POST(req: Request) {
 
       return apiResponse(true, {
         id: existingUser.id,
+        is_plaid_connect: existingUser.is_plaid_connect,
         token: token,
         type: "Bearer",
         expires_in: "24h",
