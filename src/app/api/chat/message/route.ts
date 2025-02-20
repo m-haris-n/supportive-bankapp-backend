@@ -12,7 +12,6 @@ export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
       let body = await req.json();
-      const user_id = getUserId(req);
 
       const parsedData = schema.parse(body);
 
