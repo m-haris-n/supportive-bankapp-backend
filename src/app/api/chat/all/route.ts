@@ -36,9 +36,15 @@ export const GET = authMiddleware(async (req: any) => {
       },
     });
 
+    // Extract pinned chat IDs
+    const pinnedChatIds = new Set(pinnedChats.map((pin) => pin.chat_id));
+
+    // Exclude pinned chats from the chat array
+    const filteredChats = chats.filter((chat) => !pinnedChatIds.has(chat.id));
+
     return apiResponse(true, {
       pinnedChats: pinnedChats.map((pin) => pin.chats), // Extract chat objects
-      chats,
+      chats: filteredChats,
     });
   } catch (error) {
     console.error("Error fetching chats:", error);
