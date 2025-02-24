@@ -15,9 +15,15 @@ export async function POST(req: Request) {
 
       const parsedData = schema.parse(body);
 
-      const message = await prisma.chat_messages.create({
+      await prisma.chat_messages.create({
         // @ts-ignore
         data: parsedData,
+      });
+
+      const message = await prisma.chat_messages.create({
+        // @ts-ignore
+        chat_id: parsedData.chat_id,
+        message: "AI BOT",
       });
 
       return apiResponse(true, message, 201);
