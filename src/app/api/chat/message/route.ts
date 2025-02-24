@@ -1,6 +1,7 @@
 import prisma from "@/app/lib/prisma";
 import { apiResponse, getUserId } from "@/app/helpers/functions";
 import { z } from "zod";
+import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 const schema = z.object({
   chat_id: z.string().min(1),
@@ -16,14 +17,14 @@ export async function POST(req: Request) {
       const parsedData = schema.parse(body);
 
       await prisma.chat_messages.create({
-        // @ts-ignore
         data: parsedData,
       });
 
       const message = await prisma.chat_messages.create({
-        // @ts-ignore
-        chat_id: parsedData.chat_id,
-        message: "AI BOT",
+        data: {
+          chat_id: parsedData.chat_id,
+          message: "AI BOT response",
+        },
       });
 
       return apiResponse(true, message, 201);
@@ -34,6 +35,10 @@ export async function POST(req: Request) {
           error.errors.map((e) => e.message),
           400
         );
+      }
+
+      if (error instanceof PrismaClientValidationError) {
+        return apiResponse(false, error.message);
       }
       return apiResponse(false, error, 500);
     }
