@@ -19,8 +19,8 @@ export const DELETE = authMiddleware(async (req: any) => {
       return apiResponse(false, "Chat not found.");
     }
 
-    const pinnedChat = await prisma.pin_chats.findUnique({
-      where: { id: chat_id, user_id: user_id },
+    const pinnedChat = await prisma.pin_chats.findFirst({
+      where: { chat_id: chat_id, user_id: user_id },
     });
 
     if (pinnedChat) {

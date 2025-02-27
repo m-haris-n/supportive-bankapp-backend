@@ -11,8 +11,8 @@ export const DELETE = authMiddleware(async (req: any) => {
     const user_id = getUserId(req);
     const { chat_id } = await req.json();
 
-    const chat = await prisma.pin_chats.findUnique({
-      where: { id: chat_id, user_id: user_id },
+    const chat = await prisma.pin_chats.findFirst({
+      where: { chat_id: chat_id, user_id: user_id },
     });
 
     if (!chat) {
@@ -20,7 +20,7 @@ export const DELETE = authMiddleware(async (req: any) => {
     }
 
     await prisma.pin_chats.delete({
-      where: { id: chat_id },
+      where: { id: chat.id },
     });
 
     return apiResponse(true, "Chat deleted successfully");
