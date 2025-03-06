@@ -23,12 +23,12 @@ class PlaidClient {
     this.accessToken = accessToken;
   }
 
-  public async getTransactions() {
+  public async getTransactions(cursor: string = "") {
     try {
       
         const request: TransactionsSyncRequest = {
           access_token: this.accessToken,
-          cursor: "",
+          cursor: cursor,
           client_id: PLAID_CLIENT_ID,
           secret: PLAID_SECRET,
           count: 500,
@@ -43,5 +43,6 @@ class PlaidClient {
     }
   }
 }
+
 
 export default PlaidClient;

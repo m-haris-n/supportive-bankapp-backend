@@ -1,14 +1,22 @@
+import { masterPrompt } from "@/app/constants/prompt";
+import { getChatHistory } from "@/app/controllers/ChatControllers";
+import { getUser } from "@/app/controllers/UserControllers";
+import {
+  apiResponse,
+  countGeminiTokens,
+  transformChatHistory,
+} from "@/app/helpers/functions";
 import prisma from "@/app/lib/prisma";
-import { apiResponse, countGeminiTokens, getUserId } from "@/app/helpers/functions";
-import { z } from "zod";
+import {
+  Content,
+  GoogleGenerativeAI,
+  SchemaType,
+} from "@google/generative-ai";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
-import { DynamicRetrievalMode,GoogleSearchRetrievalTool } from "@google/generative-ai";
-
+import { z } from "zod";
 const schema = z.object({
   chat_id: z.string().min(1),
-  sender_id: z.string().min(1), 
+  sender_id: z.string().min(1),
   message: z.string().min(1),
 });
 
@@ -19,74 +27,88 @@ export async function POST(req: Request) {
 
       const parsedData = schema.parse(body);
 
-      const user = await prisma.users.findFirstOrThrow({
-        where: {
-          id: parsedData.sender_id,
-        },
-        select: {
-          transaction_history: {
-            select: {
-              transactions: true,
-              accounts: true
-            }
-          }
-        },
+      const user = await getUser(parsedData.sender_id);
+
+      const transactionHistory = user?.transaction_history;
+
+      const genAI = new GoogleGenerativeAI(
+        process.env.GOOGLE_API_KEY as string
+      );
+
+      const model = genAI.getGenerativeModel({
+        model: process.env.GOOGLE_MODEL as string,
+        // tools: [
+        //   {
+        //     functionDeclarations: [
+        //       {
+        //         name: "google_search",
+        //         description:
+        //           "Performs a Google Search and returns snippets of search results.",
+        //         parameters: {
+        //           type: SchemaType.OBJECT,
+        //           properties: {
+        //             query: {
+        //               type: SchemaType.STRING,
+        //               description: "The search query.",
+        //             },
+        //           },
+        //           required: ["query"],
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ],
       });
-
-      const transactionHistory = user.transaction_history;
-      
-      const searchRetrievalTool: GoogleSearchRetrievalTool = {
-        googleSearchRetrieval: {
-          dynamicRetrievalConfig: {
-            mode: DynamicRetrievalMode.MODE_DYNAMIC,
-            dynamicThreshold: 0.7,
-          },
-        },
-      };
-
-      const model = new ChatGoogleGenerativeAI({
-        modelName: process.env.GOOGLE_MODEL,
-        temperature: 0,
-        maxRetries: 0,
-      })//.bindTools([searchRetrievalTool]);
 
       // Get chat history
-      const chatHistory = await prisma.chat_messages.findMany({
-        where: {
-          chat_id: parsedData.chat_id,
-        },
-        orderBy: {
-          createdAt: 'asc'
-        }
+      const chatHistory = await getChatHistory(parsedData.chat_id);
+
+
+      // Format messages according to Google GenAI API requirements
+      const messages: Content[] = [...transformChatHistory(chatHistory)];
+
+      const tokens = await countGeminiTokens(
+        JSON.stringify(messages),
+        process.env.GOOGLE_MODEL as string
+      );
+      if (tokens >= 500000) {
+        return apiResponse(
+          false,
+          "Exceeded chat limit. Please start a new chat.",
+          400
+        );
+      }
+
+      const chat = model.startChat({
+        history: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: `${masterPrompt}
+${JSON.stringify(transactionHistory)}`,
+              },
+            ],
+          },
+          ...messages,
+        ],
       });
-      console.log("Chat History: ",chatHistory);
 
+      const result = await chat.sendMessage([{ text: parsedData.message }]);
+      const aiResponse = result.response.text();
+      if(aiResponse == "") {
 
-      const messages = [
-        {
-          role: "system",
-          content: `This is Plaid's transaction history activity data. Please answer questions regarding this data: ${JSON.stringify(transactionHistory)}`
-        },
-        // Add chat history
-        ...chatHistory.map(msg => ({
-          role: msg.sender_id ? "human" : "assistant",
-          content: msg.message
-        })),
-        // Add current user message
-        {
-          role: "human", 
-          content: parsedData.message
+        const functionCall = result.response.candidates?.[0]?.content.parts[0].functionCall;
+        if(functionCall) {
+          const functionName = functionCall.name;
+          const functionArgs = functionCall.args;
+          if(functionName === "google_search") {
+            console.log("functionArgs: ", functionArgs);
+          }
         }
-      ];
-      // console.log("Messages: ",messages);
-      // const tokens = await countGeminiTokens(JSON.stringify(messages), process.env.GOOGLE_MODEL as string);
-      // console.log("Tokens: ",tokens);
-      // Get AI response
-      const result = await model.invoke(messages);
-      const aiResponse = result.content;
-      console.log(aiResponse);
-      // return apiResponse(true, aiResponse, 201);
-      // Save user message
+        return apiResponse(true, "I'm sorry, I don't know how to answer that.", 201);
+      }
+
       await prisma.chat_messages.create({
         data: parsedData,
       });
@@ -95,7 +117,7 @@ export async function POST(req: Request) {
       const message = await prisma.chat_messages.create({
         data: {
           chat_id: parsedData.chat_id,
-          message: aiResponse.toString(),
+          message: aiResponse ?? "I'm sorry, I don't know how to answer that.",
         },
       });
 

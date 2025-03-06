@@ -1,5 +1,5 @@
 import prisma from "@/app/lib/prisma";
-import { apiResponse, cleanAccounts, cleanTransactions } from "@/app/helpers/functions";
+import { apiResponse, cleanAccounts, cleanTransactions, updateTransactionHistory } from "@/app/helpers/functions";
 import { z } from "zod";
 import PlaidClient from "@/app/lib/plaid";
 import { authMiddleware } from "@/app/middleware/authMiddleware";
@@ -26,18 +26,8 @@ export const POST = authMiddleware(async (req: Request) => {
         },
       }); 
 
-      const plaidClient = new PlaidClient(user.access_token as string);
-      const transactions = await plaidClient.getTransactions();
-      const cleanedAccounts = cleanAccounts(transactions.accounts);
-      const cleanedTransactions = cleanTransactions(transactions.added, cleanedAccounts);
+      await updateTransactionHistory(parsedData.user_id);
 
-      await prisma.transaction_history.create({
-        data: {
-          user_id: parsedData.user_id,
-          accounts: JSON.stringify(cleanedAccounts),
-          transactions: JSON.stringify(cleanedTransactions),
-        },
-      });
       return apiResponse(true, chat, 201);
     } catch (error) {
       console.log(error);

@@ -13,9 +13,9 @@ export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
       let body = await req.json();
-
+      console.log("body", body);
       const parsedData = userSchema.parse(body);
-
+      console.log("parsedData", parsedData);
       const existingUser = await prisma.users.findFirst({
         where: {
           email: parsedData.email,
@@ -49,6 +49,7 @@ export async function POST(req: Request) {
         expires_in: "24h",
       });
     } catch (error) {
+      console.log(error);
       if (error instanceof z.ZodError) {
         return apiResponse(
           false,
