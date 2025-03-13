@@ -20,7 +20,7 @@ export const POST = authMiddleware(async (req: Request) => {
         data: parsedData,
       });
 
-      const user = await prisma.users.findFirstOrThrow({
+      await prisma.users.findFirstOrThrow({
         where: {
           id: parsedData.user_id,
         },

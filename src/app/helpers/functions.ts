@@ -107,33 +107,46 @@ export const updateTransactionHistory = async (userId: string) => {
       cursor = transactions.next_cursor;
     }
     // Check if a record exists for this user
-    const existingRecord = await prisma.transaction_history.findFirst({
+    await prisma.transaction_history.upsert({
       where: {
         user_id: userId,
       },
+      update: {
+        accounts: JSON.stringify(cleanedAccounts),
+        transactions: JSON.stringify(cleanedTransactions),
+      },
+      create: {
+        user_id: userId,
+        accounts: JSON.stringify(cleanedAccounts),
+        transactions: JSON.stringify(cleanedTransactions),
+      },
     });
-
-    if (existingRecord) {
-      // Update existing record
-      await prisma.transaction_history.update({
-        where: {
-          id: existingRecord.id,
-        },
-        data: {
-          accounts: JSON.stringify(cleanedAccounts),
-          transactions: JSON.stringify(cleanedTransactions),
-        },
-      });
-    } else {
-      // Create new record
-      await prisma.transaction_history.create({
-        data: {
-          user_id: userId,
-          accounts: JSON.stringify(cleanedAccounts),
-          transactions: JSON.stringify(cleanedTransactions),
-        },
-      });
-    }
+    // const existingRecord = await prisma.transaction_history.findFirst({
+    //   where: {
+    //     user_id: userId,
+    //   },
+    // });
+    // if (existingRecord) {
+    //   // Update existing record
+    //   await prisma.transaction_history.update({
+    //     where: {
+    //       id: existingRecord.id,
+    //     },
+    //     data: {
+    //       accounts: JSON.stringify(cleanedAccounts),
+    //       transactions: JSON.stringify(cleanedTransactions),
+    //     },
+    //   });
+    // } else {
+    //   // Create new record
+    //   await prisma.transaction_history.create({
+    //     data: {
+    //       user_id: userId,
+    //       accounts: JSON.stringify(cleanedAccounts),
+    //       transactions: JSON.stringify(cleanedTransactions),
+    //     },
+    //   });
+    // }
 
     return {
       accounts: cleanedAccounts,
