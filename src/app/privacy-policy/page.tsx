@@ -1,112 +1,199 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Privacy Policy | Bank App',
-  description: 'Privacy Policy for Bank App - How we protect your data and privacy',
+  title: 'Privacy Policy | Bankr AI',
+  description: 'Privacy Policy for Bankr AI - How we protect your data and privacy',
 };
 
 export default function PrivacyPolicy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
-      
-      <div className="space-y-6">
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
-          <p className="mb-3">
-            At Bank App, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our banking application.
-          </p>
-          <p>
-            Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
-          <p className="mb-3">
-            We collect information that you provide directly to us when registering for an account, performing banking transactions, or when you contact customer support.
-          </p>
-          <p className="mb-3">
-            <strong>Personal Information:</strong> Name, email address, phone number, date of birth, social security number, and other identification information.
-          </p>
-          <p className="mb-3">
-            <strong>Financial Information:</strong> Bank account numbers, transaction history, account balances, and payment information.
-          </p>
-          <p>
-            <strong>Usage Data:</strong> Information about how you use our application, including login times, features used, and device information.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">How We Use Your Information</h2>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>To provide and maintain our banking services</li>
-            <li>To process your transactions and manage your accounts</li>
-            <li>To verify your identity and prevent fraud</li>
-            <li>To communicate with you about your account and provide customer support</li>
-            <li>To improve our application and develop new features</li>
-            <li>To comply with legal obligations and banking regulations</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
-          <p className="mb-3">
-            We implement appropriate technical and organizational measures to protect the security of your personal information. However, please be aware that no method of transmission over the internet or electronic storage is 100% secure.
-          </p>
-          <p>
-            We use encryption, secure servers, and regular security assessments to protect your data from unauthorized access.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Third-Party Disclosure</h2>
-          <p className="mb-3">
-            We may share your information with third parties only in the ways that are described in this privacy policy:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>With service providers who perform services on our behalf</li>
-            <li>To comply with legal requirements, such as a law, regulation, court order, or subpoena</li>
-            <li>To protect the safety, rights, or property of Bank App, our users, or the public</li>
-            <li>In connection with a business transfer, such as a merger, acquisition, or sale of assets</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Your Rights</h2>
-          <p className="mb-3">
-            Depending on your location, you may have certain rights regarding your personal information, including:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>The right to access the personal information we have about you</li>
-            <li>The right to request correction of inaccurate information</li>
-            <li>The right to request deletion of your information</li>
-            <li>The right to opt-out of certain data sharing practices</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Changes to This Privacy Policy</h2>
-          <p>
-            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
-          <p>
-            If you have any questions about this Privacy Policy, please contact us at:
-            <br />
-            <a href="mailto:privacy@bankapp.com" className="text-blue-600 hover:underline">privacy@bankapp.com</a>
-          </p>
-        </section>
-
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <p className="text-sm text-gray-600">Last Updated: {new Date().toLocaleDateString()}</p>
-          <Link href="/" className="text-blue-600 hover:underline mt-2 inline-block">
-            Return to Home
+    <div className="min-h-screen bg-white">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <header className="flex justify-between items-center mb-12">
+          <Link href="/" className="text-2xl font-bold text-black">
+            Bankr AI
           </Link>
-        </div>
+        </header>
+
+        <main>
+          <h1 className="text-3xl font-bold mb-8">Bankr AI Privacy Policy</h1>
+          
+          <div className="space-y-8">
+            <p className="text-gray-600">
+              At Bankr AI, your privacy is our top priority. This Privacy Policy explains how we collect, use, and protect your information when you use our app.
+            </p>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">1. Information We Collect</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Personal Information:</h3>
+                  <p className="text-gray-600">
+                    When you sign up, we may collect your name, email address, and any other contact details you provide.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Financial Data:</h3>
+                  <p className="text-gray-600">
+                    To provide personalized financial advice, we securely connect to your bank account via Plaid. This connection allows us to access transaction data and spending patterns solely to generate tailored insights for you.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Usage Information:</h3>
+                  <p className="text-gray-600">
+                    We gather information about how you use our app (e.g., features accessed, frequency of use) to help improve our service.
+                  </p>
+                  <p className="text-gray-600 mt-2">
+                    We may use cookies or similar technologies on our website to enhance your user experience.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">2. How We Use Your Information</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Personalized Advice:</h3>
+                  <p className="text-gray-600">
+                    We use your financial and usage data to deliver customized financial insights, budgeting tips, and recommendations—much like having your own expert advisor.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Service Improvement:</h3>
+                  <p className="text-gray-600">
+                    Data collected helps us enhance our app, fix issues, and better understand your needs.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Communication:</h3>
+                  <p className="text-gray-600">
+                    We may use your contact details to send you updates, billing information, or important notices regarding your account.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Security and Fraud Prevention:</h3>
+                  <p className="text-gray-600">
+                    Your data is used to protect and secure your account, ensuring that only you can access your information.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">3. Data Sharing and Disclosure</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Third-Party Service Providers:</h3>
+                  <p className="text-gray-600">
+                    We share information only with trusted partners (e.g., Plaid) who assist us in providing our service. These partners are contractually bound to protect your data and use it only as necessary.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">No Sale of Personal Data:</h3>
+                  <p className="text-gray-600">
+                    We do not sell, rent, or trade your personal or financial information with third parties.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Legal Requirements:</h3>
+                  <p className="text-gray-600">
+                    We may disclose your information if required by law or to protect our rights, your safety, or that of others.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">4. Data Security</h2>
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  We use industry-standard security measures (such as encryption) to safeguard your data both in transit and at rest.
+                </p>
+                <p className="text-gray-600">
+                  Our systems are regularly updated to protect against unauthorized access, alteration, or destruction of your information.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">5. Data Retention</h2>
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  Your information is retained for as long as your account is active or as needed to provide you with our services.
+                </p>
+                <p className="text-gray-600">
+                  Once your account is closed, we will securely delete your personal data unless a longer retention period is required by law.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">6. Your Rights and Choices</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Access and Update:</h3>
+                  <p className="text-gray-600">
+                    You can review and update your personal information at any time by accessing your account settings.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Opt-Out:</h3>
+                  <p className="text-gray-600">
+                    If you no longer wish to receive communications from us, you can opt-out via the provided links in our emails.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Data Deletion:</h3>
+                  <p className="text-gray-600">
+                    You may request the deletion of your data by contacting us. Note that some information may be retained as required by legal obligations.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">7. International Data Transfers</h2>
+              <p className="text-gray-600">
+                Your data may be stored or processed on servers located outside your country. We ensure that such transfers are conducted in accordance with applicable data protection laws.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">8. Changes to This Privacy Policy</h2>
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  We may update this Privacy Policy from time to time. When changes occur, we will notify you by posting the updated policy on our website and updating the effective date.
+                </p>
+                <p className="text-gray-600">
+                  We encourage you to review this policy periodically to stay informed about how we protect your information.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">9. Contact Us</h2>
+              <p className="text-gray-600">
+                If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
+                <br />
+                <a href="mailto:privacy@bankr.ai" className="text-black hover:underline">privacy@bankr.ai</a>
+              </p>
+            </section>
+
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <p className="text-gray-600">
+                By using Bankr AI, you agree to the terms of this Privacy Policy. Thank you for trusting us with your financial journey.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="text-sm text-gray-600">Last Updated: {new Date().toLocaleDateString()}</p>
+            <Link href="/" className="text-black hover:underline mt-4 inline-block">
+              Return to Home
+            </Link>
+          </div>
+        </main>
       </div>
     </div>
   );

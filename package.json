@@ -11,6 +11,7 @@
     "db:migrate": "npx prisma migrate dev && npx prisma generate"
   },
   "dependencies": {
+    "@google-cloud/vertexai": "^1.9.3",
     "@google/generative-ai": "^0.22.0",
     "@langchain/core": "^0.3.42",
     "@langchain/google-genai": "^0.1.10",
