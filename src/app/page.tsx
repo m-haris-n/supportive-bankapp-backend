@@ -62,7 +62,7 @@ export default function Home() {
                 Imagine having your Harvard MBA best friend in your pocket. Bankr AI securely connects to your bank account and uses advanced AI combined with real-time web search to answer your money questions and provide personalized financial advice. Whether you need budgeting tips, credit card recommendations, or insights on saving smarter, Bankr AI gives you clear, actionable guidance—24/7.
               </p>
               <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
-                Download on the App Store
+                Coming Soon to App Store & Play Store
               </button>
             </div>
             <div className="md:w-1/2">
@@ -159,7 +159,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold mb-4">Simple. Transparent.</h2>
               <p className="text-2xl font-semibold mb-6">Only $5.99/month with no hidden fees.</p>
               <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
-                Download Now
+                Coming Soon to App Store & Play Store
               </button>
             </div>
           </section>
@@ -200,7 +200,7 @@ export default function Home() {
           <section className="bg-gray-50 p-8 rounded-xl text-center">
             <h2 className="text-3xl font-bold mb-6">Ready to take control of your finances?</h2>
             <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
-              Download on the App Store
+              Coming Soon to App Store & Play Store
             </button>
           </section>
         </main>
