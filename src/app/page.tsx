@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const faqs = [
     {
@@ -36,8 +37,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <header className="flex justify-between items-center mb-16">
+      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
+        <header className="flex justify-between items-center mb-8 md:mb-16">
           <div className="flex items-center">
             <Image
               src="/logo.png"
@@ -48,7 +49,29 @@ export default function Home() {
             />
             <h1 className="text-2xl font-bold text-black">Bankr AI</h1>
           </div>
-          <nav>
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          {/* Desktop navigation */}
+          <nav className="hidden md:block">
             <ul className="flex space-x-6">
               <li><a href="#how-it-works" className="text-gray-600 hover:text-black transition-colors">How It Works</a></li>
               <li><a href="#pricing" className="text-gray-600 hover:text-black transition-colors">Pricing</a></li>
@@ -58,21 +81,33 @@ export default function Home() {
           </nav>
         </header>
 
+        {/* Mobile navigation */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden mb-8">
+            <ul className="space-y-4">
+              <li><a href="#how-it-works" className="block text-gray-600 hover:text-black transition-colors py-2">How It Works</a></li>
+              <li><a href="#pricing" className="block text-gray-600 hover:text-black transition-colors py-2">Pricing</a></li>
+              <li><a href="#faq" className="block text-gray-600 hover:text-black transition-colors py-2">FAQ</a></li>
+              <li><Link href="/privacy-policy" className="block text-gray-600 hover:text-black transition-colors py-2">Privacy Policy</Link></li>
+            </ul>
+          </nav>
+        )}
+
         <main>
           {/* Hero Section */}
-          <section className="flex flex-col md:flex-row items-center mb-24">
-            <div className="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 leading-tight">
+          <section className="flex flex-col md:flex-row items-center mb-16 md:mb-24">
+            <div className="md:w-1/2 mb-8 md:mb-0 md:pr-10">
+              <h2 className="text-3xl md:text-5xl font-bold text-black mb-4 md:mb-6 leading-tight">
                 Bankr AI – Your AI Financial Advisor
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8">
                 Imagine having your Harvard MBA best friend in your pocket. Bankr AI securely connects to your bank account and uses advanced AI combined with real-time web search to answer your money questions and provide personalized financial advice. Whether you need budgeting tips, credit card recommendations, or insights on saving smarter, Bankr AI gives you clear, actionable guidance—24/7.
               </p>
-              <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+              <button className="w-full md:w-auto bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
                 Coming Soon to App Store & Play Store
               </button>
             </div>
-            <div className="md:w-1/2">
+            <div className="md:w-1/2 w-full">
               <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="bg-white p-4 rounded-lg mb-4">
                   <Image
@@ -92,9 +127,9 @@ export default function Home() {
           </section>
 
           {/* How It Works Section */}
-          <section id="how-it-works" className="mb-24">
-            <h2 className="text-3xl font-bold text-center mb-12">How does Bankr AI Work?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section id="how-it-works" className="mb-16 md:mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">How does Bankr AI Work?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               <div className="bg-gray-50 p-6 rounded-lg">
                 <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -134,9 +169,9 @@ export default function Home() {
           </section>
 
           {/* Why Choose Bankr AI Section */}
-          <section className="mb-24">
-            <h2 className="text-3xl font-bold text-center mb-12">Why Choose Bankr AI?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <section className="mb-16 md:mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Why Choose Bankr AI?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-xl font-semibold mb-3">Real-Time Web Search</h3>
                 <p className="text-gray-600">
@@ -165,19 +200,19 @@ export default function Home() {
           </section>
 
           {/* Pricing Section */}
-          <section id="pricing" className="mb-24">
-            <div className="bg-gray-50 p-8 rounded-xl text-center">
-              <h2 className="text-3xl font-bold mb-4">Simple. Transparent.</h2>
-              <p className="text-2xl font-semibold mb-6">Only $5.99/month with no hidden fees.</p>
-              <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+          <section id="pricing" className="mb-16 md:mb-24">
+            <div className="bg-gray-50 p-6 md:p-8 rounded-xl text-center">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Simple. Transparent.</h2>
+              <p className="text-xl md:text-2xl font-semibold mb-6">Only $5.99/month with no hidden fees.</p>
+              <button className="w-full md:w-auto bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
                 Coming Soon to App Store & Play Store
               </button>
             </div>
           </section>
 
           {/* FAQ Section */}
-          <section id="faq" className="mb-24">
-            <h2 className="text-3xl font-bold text-center mb-12">FAQ</h2>
+          <section id="faq" className="mb-16 md:mb-24">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">FAQ</h2>
             <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <div key={index} className="bg-gray-50 rounded-lg overflow-hidden">
@@ -208,21 +243,21 @@ export default function Home() {
           </section>
 
           {/* Get Started Section */}
-          <section className="bg-gray-50 p-8 rounded-xl text-center">
-            <h2 className="text-3xl font-bold mb-6">Ready to take control of your finances?</h2>
-            <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+          <section className="bg-gray-50 p-6 md:p-8 rounded-xl text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Ready to take control of your finances?</h2>
+            <button className="w-full md:w-auto bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">
               Coming Soon to App Store & Play Store
             </button>
           </section>
         </main>
 
-        <footer className="mt-24 pt-8 border-t border-gray-200">
+        <footer className="mt-16 md:mt-24 pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-6 md:mb-0">
-              <span className="text-gray-600">Bankr AI © {new Date().getFullYear()}. All rights reserved. | Powered by Plaid | We never sell your data.</span>
+            <div className="flex items-center mb-6 md:mb-0 text-center md:text-left">
+              <span className="text-gray-600 text-sm md:text-base">Bankr AI © {new Date().getFullYear()}. All rights reserved. | Powered by Plaid | We never sell your data.</span>
             </div>
             <div>
-              <Link href="/privacy-policy" className="text-gray-600 hover:text-black transition-colors">
+              <Link href="/privacy-policy" className="text-gray-600 hover:text-black transition-colors text-sm md:text-base">
                 Privacy Policy
               </Link>
             </div>
