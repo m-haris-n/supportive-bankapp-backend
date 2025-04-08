@@ -32,6 +32,7 @@ export const GET = async (request: any) => {
       products: ["auth" as Products, "transactions" as Products], // Use 'auth' for user authentication
       country_codes: ["US" as CountryCode],
       language: "en",
+      android_package_name: 'com.supportive.app',
     });
 
     return apiResponse(true, response.data);
