@@ -1,4 +1,4 @@
-import { PlaidApi, PlaidEnvironments, Configuration, Transaction, TransactionsSyncRequest } from "plaid";
+import { PlaidApi, PlaidEnvironments, Configuration, TransactionsSyncRequest } from "plaid";
 
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;

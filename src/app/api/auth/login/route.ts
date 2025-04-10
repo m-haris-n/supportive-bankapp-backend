@@ -12,7 +12,7 @@ const userSchema = z.object({
 export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
-      let body = await req.json();
+      const body = await req.json();
       console.log("body", body);
       const parsedData = userSchema.parse(body);
       console.log("parsedData", parsedData);

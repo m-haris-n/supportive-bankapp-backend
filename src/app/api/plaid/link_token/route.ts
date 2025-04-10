@@ -1,5 +1,5 @@
 import { apiResponse } from "@/app/helpers/functions";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import {
   Configuration,
   CountryCode,
@@ -20,7 +20,7 @@ const configuration = new Configuration({
 
 const plaidClient = new PlaidApi(configuration);
 
-export const GET = async (request: any) => {
+export const GET = async (request: NextRequest) => {
   try {
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.searchParams);

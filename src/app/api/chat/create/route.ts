@@ -16,7 +16,6 @@ export const POST = authMiddleware(async (req: Request) => {
       const parsedData = schema.parse(body);
 
       const chat = await prisma.chats.create({
-        // @ts-ignore
         data: parsedData,
       });
 

@@ -1,4 +1,4 @@
-interface PlaidTransaction {
+export interface PlaidTransaction {
     id: string;
     account: string;
     amount: number;
@@ -13,7 +13,7 @@ interface PlaidTransaction {
     pending: boolean;
 }
 
-interface PlaidAccount {
+export interface PlaidAccount {
     id: string;
     name: string;
     official_name: string;

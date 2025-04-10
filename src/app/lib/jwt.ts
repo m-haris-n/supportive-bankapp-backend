@@ -1,4 +1,4 @@
-//@ts-ignore
+//@ts-expect-error - jsonwebtoken types are not properly exported
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,7 +10,7 @@ export const generateToken = (payload: object, expiresIn = "24h") => {
 export const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -18,7 +18,7 @@ export const verifyToken = (token: string) => {
 export const destroyToken = (token: string) => {
   try {
     return jwt.destroy(token);
-  } catch (error) {
+  } catch {
     return null;
   }
 };

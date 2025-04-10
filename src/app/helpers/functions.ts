@@ -1,13 +1,25 @@
 import { Content, GoogleGenerativeAI } from "@google/generative-ai";
-import { RemovedTransaction, Transaction } from "plaid";
+import { Transaction, AccountBase } from "plaid";
 import prisma from "../lib/prisma";
 import PlaidClient from "../lib/plaid";
-import { calculateMaxTokens } from "@langchain/core/language_models/base";
 import { chat_messages } from "@prisma/client";
+import { NextRequest } from "next/server";
+import { PlaidTransaction } from "../types/plaidTypes";
+
+interface PlaidAccount {
+  id: string;
+  name: string;
+  official_name: string;
+  type: string;
+  subtype: string;
+  available_balance: number;
+  current_balance: number;
+  currency: string;
+}
 
 export function apiResponse(
   success: boolean = true,
-  data: any = null,
+  data: unknown = null,
   status: number = 200
 ) {
   return Response.json(
@@ -16,27 +28,27 @@ export function apiResponse(
   );
 }
 
-export function getUserId(req: any) {
-  return (req as any).user.userId;
+export function getUserId(req: NextRequest) {
+  return (req as unknown as { user: { userId: string } }).user.userId;
 }
 
 export const generateOTP = (length: number = 6): string => {
   return Array.from({ length }, () => Math.floor(Math.random() * 10)).join("");
 };
 
-export const cleanAccounts = (accounts: any[]) => {
-  return accounts.map((account: any) => {
+export const cleanAccounts = (accounts: AccountBase[]): PlaidAccount[] => {
+  return accounts.map((account) => {
     return {
       id: account.account_id,
       name: account.name,
-      official_name: account.official_name,
+      official_name: account.official_name || "",
       type: account.type,
-      subtype: account.subtype,
-      available_balance: account.balances.available,
-      current_balance: account.balances.current,
-      currency: account.balances.iso_currency_code,
+      subtype: account.subtype || "",
+      available_balance: account.balances.available || 0,
+      current_balance: account.balances.current || 0,
+      currency: account.balances.iso_currency_code || "USD",
     };
-  }) as PlaidAccount[];
+  });
 };
 
 export const cleanTransactions = (

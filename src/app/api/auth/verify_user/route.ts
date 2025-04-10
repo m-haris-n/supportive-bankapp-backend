@@ -10,7 +10,7 @@ const userSchema = z.object({
 export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
-      let body = await req.json();
+      const body = await req.json();
 
       const parsedData = userSchema.parse(body);
 
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
         text: otp,
       };
 
-      const info = await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
 
       if (updatedUser) {
         return apiResponse(true, { msg: "OTP has been to your email address" });

@@ -1,8 +1,9 @@
 import { authMiddleware } from "@/app/middleware/authMiddleware";
 import { apiResponse, getUserId } from "@/app/helpers/functions";
 import prisma from "@/app/lib/prisma";
+import { NextRequest } from "next/server";
 
-export const GET = authMiddleware(async (req: any) => {
+export const GET = authMiddleware(async (req: NextRequest) => {
   const user = await prisma.users.findFirst({
     where: {
       id: getUserId(req),

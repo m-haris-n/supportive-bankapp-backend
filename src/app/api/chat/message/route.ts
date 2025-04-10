@@ -4,7 +4,6 @@ import { getUser } from "@/app/controllers/UserControllers";
 import {
   apiResponse,
   countGeminiTokens,
-  transformChatHistory,
 } from "@/app/helpers/functions";
 import prisma from "@/app/lib/prisma";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
@@ -19,7 +18,7 @@ const schema = z.object({
 export async function POST(req: Request) {
   if (req.method == "POST") {
     try {
-      let body = await req.json();
+      const body = await req.json();
       const parsedData = schema.parse(body);
       
       const user = await getUser(parsedData.sender_id);

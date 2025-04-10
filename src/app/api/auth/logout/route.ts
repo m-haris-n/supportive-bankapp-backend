@@ -1,7 +1,11 @@
 import { authMiddleware } from "@/app/middleware/authMiddleware";
-import { apiResponse, getUserId } from "@/app/helpers/functions";
-import prisma from "@/app/lib/prisma";
+import { NextRequest } from "next/server";
 
-export const POST = authMiddleware(async (req: any) => {
-    
+export const POST = authMiddleware(async (req: NextRequest) => {
+    return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 });
