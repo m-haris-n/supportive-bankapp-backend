@@ -159,10 +159,10 @@ export const updateTransactionHistory = async (userId: string) => {
 };
 
 
-export const transformChatHistory = (chatHistory: chat_messages[]) => {
+export const transformChatHistory = (chatHistory: any[]) => {
   return chatHistory.map((message) => {
     return {
-      role: message.sender_id ? "user" : "model",
+      role: message.sender_id ? "user" : "assistant",
       parts: [{ text: message.message }],
     };
   });
